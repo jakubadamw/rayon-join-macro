@@ -1,0 +1,36 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        toolchain: [beta, nightly, stable]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Rust
+      run: rustup default $TOOLCHAIN
+      env:
+        TOOLCHAIN: ${{ matrix.toolchain }}
+    - name: Build
+      run: cargo build --verbose
+    - name: Run tests
+      run: cargo test --verbose
+    - name: Install Clippy
+      run: rustup component add clippy
+    - name: Run Clippy
+      run: cargo clippy --all-targets --all-features -- -D warnings -D clippy::pedantic
+    - name: Install cargo-audit
+      run: cargo install cargo-audit
+    - name: Run cargo-audit
+      run: cargo audit
+    - name: Install cargo-tarpaulin
+      run: cargo install cargo-tarpaulin -f
+    - name: Run cargo-tarpaulin
+      run: cargo tarpaulin --out Xml && bash <(curl -s https://codecov.io/bash)
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

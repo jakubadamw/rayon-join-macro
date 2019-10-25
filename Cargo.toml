@@ -1,0 +1,13 @@
+[package]
+name = "rayon-join-macro"
+version = "0.1.0"
+authors = ["Jakub Wieczorek <jakub.adam.wieczorek@gmail.com>"]
+edition = "2018"
+
+license = "MIT"
+
+keywords = ["macro", "parallel", "rayon"]
+repository = "https://github.com/jakubadamw/rayon-join-macro"
+
+[dependencies]
+rayon = "1.2"
