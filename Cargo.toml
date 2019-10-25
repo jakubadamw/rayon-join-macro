@@ -1,7 +1,7 @@
 [package]
 name = "rayon-join-macro"
 description = "A convenience n-nary macro around `rayon::join()`"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Jakub Wieczorek <jakub.adam.wieczorek@gmail.com>"]
 edition = "2018"
 

@@ -68,13 +68,6 @@ impl_cons_tuple!(T1, T2, T3, T4, T5, T6);
 impl_cons_tuple!(T1, T2, T3, T4, T5, T6, T7);
 impl_cons_tuple!(T1, T2, T3, T4, T5, T6, T7, T8);
 
-#[doc(hidden)]
-#[macro_export]
-macro_rules! join_ {
-    ($e:expr) => { ($e(),) };
-    ($e:expr, $($tail:expr),+) => { rayon::join($e, || join_!($($tail),+)) };
-}
-
 /// A wrapper around `rayon::join` that accepts more than 2 and up to 8 closures to be run in parallel.
 ///
 /// # Examples
@@ -93,7 +86,13 @@ macro_rules! join_ {
 /// ```
 #[macro_export]
 macro_rules! join {
-    ($($e:expr),+) => { join_!($($e),+).flattened() };
+    (, $e:expr) => { ($e(),) };
+    (, $e:expr, $($tail:expr),+) => { rayon::join($e, || join!(, $($tail),+)) };
+
+    ($($e:expr),+) => { {
+        use $crate::ConsTuple;
+        join!(, $($e),+).flattened()
+     } };
 }
 
 #[test]
