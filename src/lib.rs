@@ -22,6 +22,8 @@
 //! # }
 //! ```
 
+#![allow(clippy::needless_doctest_main)]
+
 pub trait ConsTuple {
     type Flattened;
     fn flattened(self) -> Self::Flattened;
