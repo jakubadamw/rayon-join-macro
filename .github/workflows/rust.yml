@@ -24,7 +24,7 @@ jobs:
       run: rustup component add clippy
     - name: Run clippy
       run: cargo clippy --all-targets --all-features -- -D warnings -D clippy::pedantic
-      if: always()
+      if: success()
     - name: Install cargo-audit
       run: cargo install cargo-audit
     - name: Run cargo-audit
