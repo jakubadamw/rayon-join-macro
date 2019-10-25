@@ -23,6 +23,7 @@
 //! ```
 
 #![allow(clippy::needless_doctest_main)]
+#![allow(clippy::unknown_clippy_lints)]
 
 pub trait ConsTuple {
     type Flattened;
